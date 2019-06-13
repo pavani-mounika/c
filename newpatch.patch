@@ -1,0 +1,21 @@
+--- o1.c	2019-06-11 10:38:23.856427961 +0530
++++ edited.c	2019-06-11 10:16:21.661871552 +0530
+@@ -1,12 +1,17 @@
+ #include<stdio.h>
+ 
+-
+ void add()
+ {
+ 	printf("in add fun\n");
+ }
+ 
++void sub()
++{
++	printf("in sub fun\n");
++}
++
+ int main()
+ {
+ 	add();
++	sub();
+ }

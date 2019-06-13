@@ -1,24 +1,33 @@
 #include<stdio.h>
+#include<sys/types.h>
+#include<sys/stat.h>
 #include<unistd.h>
 #include<fcntl.h>
+#include<string.h>
 
 int main()
 {
-	int fd[2],pid;
-	char *msg="manu";
-	char tx[100],rx[100];
-	pid = pipe(fd);
-	if(pid<0)
+	int fd[2];
+	int r = pipe(fd);
+
+	char msg[10],buf[10];
+	printf("enter\n");
+	scanf("%s",msg);
+	int ret = fork();
+	if(ret<0 && r<0)
 	{
-		perror("pipe");
-		return;
+		printf("child and pipe not process cretaed\n");
+		return -1;
 	}
-	printf("enter tx data\n");
-	scanf("%s",tx);
-	write(fd[1],msg,sizeof(msg));
-	read(fd[0],rx,sizeof(msg));
-	printf("msg from *msg:%s\n",rx);
-	write(fd[1],tx,sizeof(tx));
-	read(fd[0],rx,sizeof(tx));
-	printf("msg from tx:%s\n",rx);
-}
+	if(ret==0)
+	{
+		printf("child process\n");
+		write(fd[1],msg,strlen(msg));
+	}
+	else
+	{
+		printf("parent process\n");
+		read(fd[0],buf,strlen(buf));
+		printf("read:%s\n",buf);
+	}
+}		
